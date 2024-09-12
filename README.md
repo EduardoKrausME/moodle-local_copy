@@ -20,18 +20,20 @@
 ## Installation
 
 1. Download the plugin directly from the [GitHub repository](https://github.com/EduardoKrausME/moodle-local_copy).
-2. Extract the files and move the `local_copy` folder to the `local` directory of your Moodle installation.
-3. Alternatively, upload it via `Site Administration` >> `Plugins` >> `Install Plugins`.
-4. Log in to Moodle as an administrator and go to `Site Administration -> General` to complete the installation.
+1. Extract the files and move the `local_copy` folder to the `local` directory of your Moodle installation.
+1. Alternatively, upload it via `Site Administration` >> `Plugins` >> `Install Plugins`.
+1. Log in to Moodle as an administrator and go to `Site Administration -> General` to complete the installation.
 
 ## How to Use
 
 1. Access the source course from which you want to copy activities or resources.
-2. Turn on editing in the course.
-3. The activity will display a "Copy module to clipboard" link; click it.
-4. Go to the target course.
-5. Click the "Paste Module here" button.
-6. The copied activity or resource will be inserted at that location.
+1. Turn on editing in the course.
+1. The activity will display a "Copy module to clipboard" link; click it.
+![Captura de Tela 2024-09-12 às 13 40 04](https://github.com/user-attachments/assets/ea71f5c7-3617-4aec-8926-998e91cd45d1)
+1. Go to the target course.
+1. Click the "Paste Module here" button.
+![Captura de Tela 2024-09-12 às 13 40 18](https://github.com/user-attachments/assets/0c0856f7-9499-4ea8-9a76-29676d5ead27)
+1. The copied activity or resource will be inserted at that location.
 
 ## Support
 
