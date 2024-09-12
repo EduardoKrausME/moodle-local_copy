@@ -31,7 +31,7 @@
 1. The activity will display a "Copy module to clipboard" link; click it.
 ![Captura de Tela 2024-09-12 às 13 40 04](https://github.com/user-attachments/assets/ea71f5c7-3617-4aec-8926-998e91cd45d1)
 1. Go to the target course.
-1. Click the "Paste Module here" button.
+1. Click the "Paste _XXXXX_ here" button.
 ![Captura de Tela 2024-09-12 às 13 40 18](https://github.com/user-attachments/assets/0c0856f7-9499-4ea8-9a76-29676d5ead27)
 1. The copied activity or resource will be inserted at that location.
 
