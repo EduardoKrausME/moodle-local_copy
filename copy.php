@@ -34,4 +34,4 @@ if ($USER->editing) {
 
 $returnurl = required_param('returnurl', PARAM_RAW);
 $returnurl = str_replace($CFG->wwwroot, '', $returnurl);
-redirect($returnurl, get_string("copiedsuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
+redirect($returnurl, get_string("copyedsuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);

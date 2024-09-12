@@ -22,8 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['copi'] = 'Copiar';
-$string['copiedsuccess'] = 'Copied successfully';
+$string['copy'] = 'Copy module to clipboard';
+$string['copyedsuccess'] = 'Copyed successfully';
 $string['modulename'] = 'Copy Modules';
 $string['pastehere'] = 'Paste&nbsp;<strong>{$a}</strong>&nbsp;here';
 $string['pastesuccess'] = 'Pasted successfully';
