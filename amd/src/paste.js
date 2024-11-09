@@ -17,10 +17,10 @@ define(["jquery"], function($) {
                         .addClass("d-flex")
                         .addClass("align-items-center")
                         .append(`&nbsp;&nbsp;
-                            <form action="${url}" 
+                            <form action="${url}"
                                   method="post">
-                                <button class="btn btn-link" 
-                                        style="width:auto;border-radius:14px;" 
+                                <button class="btn btn-link"
+                                        style="width:auto;border-radius:14px;"
                                         type="submit">&nbsp;&nbsp;${pastetext}&nbsp;&nbsp;</button>
                             </form>`);
                 });
