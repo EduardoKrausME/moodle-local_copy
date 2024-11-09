@@ -28,3 +28,4 @@ $string['modulename'] = 'Copy Modules';
 $string['pastehere'] = 'Paste&nbsp;<strong>{$a}</strong>&nbsp;here';
 $string['pastesuccess'] = 'Pasted successfully';
 $string['pluginname'] = 'Copy Modules';
+$string['privacy:metadata'] = 'This plugin does not collect, store, or share any personal data from students.';
