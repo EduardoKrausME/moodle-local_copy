@@ -7,10 +7,12 @@ define(["jquery"], function($) {
                 var mod_id = $element.attr('data-id');
                 var name = encodeURIComponent($element.find('.activity-item').attr('data-activityname'));
                 var urlreturn = encodeURIComponent(location.href);
-                $element.find('.activity-actions')
-                    .addClass('d-flex')
-                    .addClass('align-items-center')
-                    .append(`<a href="/local/copy/copy.php?module=${mod_id}&name=${name}&returnurl=${urlreturn}">${copytext}</a>`)
+                $element.find('.editing_delete')
+                    .before(`<a href="/local/copy/copy.php?module=${mod_id}&name=${name}&returnurl=${urlreturn}"
+                                class="dropdown-item menu-action cm-edit-action">
+                                 <i class="icon fa fa-copy fa-fw"></i>
+                                 <span class="menu-action-text">${copytext}</span>
+                             </a>`)
             });
         }
     };
