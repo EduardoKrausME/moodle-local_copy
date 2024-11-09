@@ -30,11 +30,11 @@ function local_copy_before_standard_html_head() {
     global $PAGE, $USER, $COURSE;
 
     if (isset($USER->editing) && $USER->editing) {
-        $PAGE->requires->js_call_amd('local_copy/copy', 'init',
+        $PAGE->requires->js_call_amd("local_copy/copy", "init",
             [get_string("copy", "local_copy")]);
 
         if (isset($USER->copymodule_id) && $USER->copymodule_id) {
-            $PAGE->requires->js_call_amd('local_copy/paste', 'init',
+            $PAGE->requires->js_call_amd("local_copy/paste", "init",
                 [$COURSE->id, get_string("pastehere", "local_copy", $USER->copymodule_name)]);
         }
     }

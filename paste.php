@@ -22,25 +22,23 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__ . '/../../config.php');
+require_once(__DIR__ . "/../../config.php");
 
 require_once("{$CFG->dirroot}/lib/modinfolib.php");
 require_once("{$CFG->dirroot}/course/lib.php");
-require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
-require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
-require_once($CFG->libdir . '/filelib.php');
+require_once("{$CFG->dirroot}/backup/util/includes/backup_includes.php");
+require_once("{$CFG->dirroot}/backup/util/includes/restore_includes.php");
+require_once("{$CFG->libdir}/filelib.php");
 
 require_login();
 $context = \context_system::instance();
-require_capability('moodle/site:config', $context);
+require_capability("local/copy:manage", $context);
 $PAGE->set_context($context);
 
-
 $coursemoduleorigem = $USER->copymodule_id;
-$coursedestino = required_param('courseid', PARAM_INT);
-$sectiondestino = required_param('section', PARAM_INT);
-$beforemodule = required_param('beforemodule', PARAM_INT);
-
+$coursedestino = required_param("courseid", PARAM_INT);
+$sectiondestino = required_param("section", PARAM_INT);
+$beforemodule = required_param("beforemodule", PARAM_INT);
 
 // Backup the activity.
 $bc = new backup_controller(backup::TYPE_1ACTIVITY, $coursemoduleorigem, backup::FORMAT_MOODLE,
@@ -52,14 +50,13 @@ $backupbasepath = $bc->get_plan()->get_basepath();
 $bc->execute_plan();
 $bc->destroy();
 
-
 // Restore the backup immediately.
 $rc = new restore_controller($backupid, $coursedestino,
     backup::INTERACTIVE_NO, backup::MODE_IMPORT, $USER->id, backup::TARGET_CURRENT_ADDING);
 
 // Make sure that the restore_general_groups setting is always enabled when duplicating an activity.
 $plan = $rc->get_plan();
-$groupsetting = $plan->get_setting('groups');
+$groupsetting = $plan->get_setting("groups");
 if (empty($groupsetting->get_value())) {
     $groupsetting->set_value(true);
 }
@@ -71,13 +68,12 @@ if (!$rc->execute_precheck()) {
 
 $rc->execute_plan();
 
-
 // Now a bit hacky part follows - we try to get the cmid of the newly
 // restored copy of the module.
 $newcmid = null;
 $tasks = $rc->get_plan()->get_tasks();
 foreach ($tasks as $task) {
-    if (is_subclass_of($task, 'restore_activity_task')) {
+    if (is_subclass_of($task, "restore_activity_task")) {
         if ($task->get_old_contextid() == $cmcontext->id) {
             $newcmid = $task->get_moduleid();
             break;
@@ -91,19 +87,16 @@ fulldelete($backupbasepath);
 
 if ($newcmid) {
     $newcm = get_coursemodule_from_id(null, $newcmid, $coursedestino);
-    $section = $DB->get_record('course_sections', ['id' => $sectiondestino, 'course' => $coursedestino]);
+    $section = $DB->get_record("course_sections", ["id" => $sectiondestino, "course" => $coursedestino]);
     moveto_module($newcm, $section, $beforemodule);
 
-
-    $returnurl = required_param('returnurl', PARAM_RAW);
-    $returnurl = str_replace($CFG->wwwroot, '', $returnurl);
-    list($return, $outro) = explode('#', $returnurl);
+    $returnurl = required_param("returnurl", PARAM_RAW);
+    $returnurl = str_replace($CFG->wwwroot, "", $returnurl);
+    list($return, $outro) = explode("#", $returnurl);
     redirect($return . "#module-{$newcmid}", get_string("pastesuccess", "local_copy"), null,
         \core\output\notification::NOTIFY_SUCCESS);
-
-    die();
+} else {
+    $returnurl = required_param("returnurl", PARAM_RAW);
+    $returnurl = str_replace($CFG->wwwroot, "", $returnurl);
+    redirect($returnurl, get_string("pastesuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
 }
-
-$returnurl = required_param('returnurl', PARAM_RAW);
-$returnurl = str_replace($CFG->wwwroot, '', $returnurl);
-redirect($returnurl, get_string("pastesuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);

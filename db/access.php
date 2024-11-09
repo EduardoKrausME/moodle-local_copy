@@ -15,23 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * copy file
+ * access file.
  *
- * @package   local_copy
- * @copyright 2024 Eduardo Kraus {@link http://eduardokraus.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_eadelia
+ * @copyright  2024 Eduardo Kraus {@link http://eduardokraus.com}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require("../../config.php");
+defined('MOODLE_INTERNAL') || die();
 
-require_login();
-require_capability("local/copy:manage", \context_system::instance());
-
-if ($USER->editing) {
-    $USER->copymodule_id = required_param("module", PARAM_INT);
-    $USER->copymodule_name = required_param("name", PARAM_TEXT);
-}
-
-$returnurl = required_param("returnurl", PARAM_RAW);
-$returnurl = str_replace($CFG->wwwroot, "", $returnurl);
-redirect($returnurl, get_string("copyedsuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
+$capabilities = [
+    "local/copy:manage" => [
+        "captype" => "write",
+        "contextlevel" => CONTEXT_SYSTEM,
+        "archetypes" => [
+            "coursecreator" => CAP_ALLOW,
+            "manager" => CAP_ALLOW,
+        ],
+    ],
+];
