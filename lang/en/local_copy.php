@@ -23,6 +23,7 @@
  */
 
 $string['copy'] = 'Copy module to clipboard';
+$string['copy:manage'] = 'Copy modules';
 $string['copyedsuccess'] = 'Copyed successfully';
 $string['modulename'] = 'Copy Modules';
 $string['pastehere'] = 'Paste&nbsp;<strong>{$a}</strong>&nbsp;here';
