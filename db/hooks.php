@@ -15,38 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Class injector
+ * Hooks
  *
  * @package    local_copy
  * @copyright  2024 Eduardo Kraus {@link http://eduardokraus.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_copy;
-
 defined('MOODLE_INTERNAL') || die;
-require_once(__DIR__ . "/../lib.php");
-
-/**
- * Class injector
- *
- * @package local_copy
- */
-class injector {
-    /**
-     * Function before_http_headers
-     */
-    public static function before_http_headers() {
-        global $PAGE, $USER, $COURSE;
-
-        if (isset($USER->editing) && $USER->editing) {
-            $PAGE->requires->js_call_amd("local_copy/copy", "init",
-                [get_string("copy", "local_copy")]);
-
-            if (isset($USER->copymodule_id) && $USER->copymodule_id) {
-                $PAGE->requires->js_call_amd("local_copy/paste", "init",
-                    [$COURSE->id, get_string("pastehere", "local_copy", $USER->copymodule_name)]);
-            }
-        }
-    }
-}
+$callbacks = [
+    [
+        'hook' => \core\hook\output\before_standard_head_html_generation::class,
+        'callback' => "\local_copy\core_hook_output::before_standard_head_html_generation",
+    ],
+];
