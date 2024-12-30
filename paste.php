@@ -30,15 +30,15 @@ require_once("{$CFG->dirroot}/backup/util/includes/backup_includes.php");
 require_once("{$CFG->dirroot}/backup/util/includes/restore_includes.php");
 require_once("{$CFG->libdir}/filelib.php");
 
-require_login();
-$context = \context_system::instance();
-require_capability("local/copy:manage", $context);
-$PAGE->set_context($context);
-
 $coursemoduleorigem = $USER->copymodule_id;
 $coursedestino = required_param("courseid", PARAM_INT);
 $sectiondestino = required_param("section", PARAM_INT);
 $beforemodule = required_param("beforemodule", PARAM_INT);
+
+require_course_login($coursedestino);
+$context = \context_course::instance($coursedestino);
+require_capability("local/copy:manage", $context);
+$PAGE->set_context($context);
 
 // Backup the activity.
 $bc = new backup_controller(backup::TYPE_1ACTIVITY, $coursemoduleorigem, backup::FORMAT_MOODLE,
