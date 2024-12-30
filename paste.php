@@ -35,6 +35,8 @@ $coursedestino = required_param("courseid", PARAM_INT);
 $sectiondestino = required_param("section", PARAM_INT);
 $beforemodule = required_param("beforemodule", PARAM_INT);
 
+$USER->copymodule_id = null;
+
 require_course_login($coursedestino);
 $context = \context_course::instance($coursedestino);
 require_capability("local/copy:manage", $context);
