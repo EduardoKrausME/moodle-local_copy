@@ -106,7 +106,7 @@ if ($newcmid) {
     $section = $DB->get_record("course_sections", ["section" => $sectiondestino, "course" => $coursedestino]);
     if ($beforemodule) {
         moveto_module($newcm, $section, $beforemodule);
-    }else{
+    } else {
         moveto_module($newcm, $section, null);
     }
 
