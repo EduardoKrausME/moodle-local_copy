@@ -1,0 +1,8 @@
+.activity div.divider button.local_copy-paste-content {
+    padding: 0 7px !important;
+}
+button.local_copy-paste-content {
+    font-weight: 400 !important;
+    width: auto;
+    margin-left: 10px;
+}

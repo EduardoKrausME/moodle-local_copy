@@ -33,7 +33,9 @@ require_once("{$CFG->libdir}/filelib.php");
 $coursemoduleorigem = $USER->copymodule_id;
 $coursedestino = required_param("courseid", PARAM_INT);
 $sectiondestino = required_param("section", PARAM_INT);
-$beforemodule = required_param("beforemodule", PARAM_INT);
+$beforemodule = optional_param("beforemodule", false, PARAM_INT);
+$returnurl = required_param("returnurl", PARAM_RAW);
+$returnurl = str_replace($CFG->wwwroot, "", $returnurl);
 
 $USER->copymodule_id = null;
 
@@ -41,6 +43,17 @@ require_course_login($coursedestino);
 $context = \context_course::instance($coursedestino);
 require_capability("local/copy:manage", $context);
 $PAGE->set_context($context);
+
+$PAGE->set_url(new moodle_url("/local/copy/paste.php",
+    [
+        "courseid" => $coursedestino,
+        "section" => $sectiondestino,
+        "beforemodule" => $beforemodule,
+    ]));
+
+if (!$coursemoduleorigem) {
+    redirect($returnurl, get_string("pasteempty", "local_copy"), null, \core\output\notification::NOTIFY_ERROR);
+}
 
 // Backup the activity.
 $bc = new backup_controller(backup::TYPE_1ACTIVITY, $coursemoduleorigem, backup::FORMAT_MOODLE,
@@ -83,22 +96,22 @@ foreach ($tasks as $task) {
     }
 }
 
+// Delete files backup.
 $rc->destroy();
-
 fulldelete($backupbasepath);
 
+// Move to local.
 if ($newcmid) {
     $newcm = get_coursemodule_from_id(null, $newcmid, $coursedestino);
-    $section = $DB->get_record("course_sections", ["id" => $sectiondestino, "course" => $coursedestino]);
-    moveto_module($newcm, $section, $beforemodule);
+    $section = $DB->get_record("course_sections", ["section" => $sectiondestino, "course" => $coursedestino]);
+    if ($beforemodule) {
+        moveto_module($newcm, $section, $beforemodule);
+    }else{
+        moveto_module($newcm, $section, null);
+    }
 
-    $returnurl = required_param("returnurl", PARAM_RAW);
-    $returnurl = str_replace($CFG->wwwroot, "", $returnurl);
-    list($return, $outro) = explode("#", $returnurl);
-    redirect($return . "#module-{$newcmid}", get_string("pastesuccess", "local_copy"), null,
+    redirect($returnurl . "#module-{$newcmid}", get_string("pastesuccess", "local_copy"), null,
         \core\output\notification::NOTIFY_SUCCESS);
 } else {
-    $returnurl = required_param("returnurl", PARAM_RAW);
-    $returnurl = str_replace($CFG->wwwroot, "", $returnurl);
     redirect($returnurl, get_string("pastesuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
 }
