@@ -24,13 +24,17 @@
 
 require("../../config.php");
 
+$copymoduleid = required_param("module", PARAM_INT);
+$copymodulename = required_param("name", PARAM_TEXT);
+
 require_login();
-require_capability("local/copy:manage", \context_system::instance());
+$context = \context_module::instance($copymoduleid);
+require_capability("local/copy:manage", $context);
 
 if ($USER->editing) {
-    $USER->copymodule_id = required_param("module", PARAM_INT);
-    $USER->copymodule_name = required_param("name", PARAM_TEXT);
+    $USER->copymodule_id = $copymoduleid;
+    $USER->copymodule_name = $copymodulename;
 }
 
 $returnurl = required_param("returnurl", PARAM_RAW);
-redirect( new moodle_url($returnurl), get_string("copyedsuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
+redirect(new moodle_url($returnurl), get_string("copyedsuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
