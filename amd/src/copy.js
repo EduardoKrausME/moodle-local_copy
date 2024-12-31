@@ -29,7 +29,7 @@ define(["jquery"], function($) {
 
                 var modId = $element.attr("data-id");
                 var name = encodeURIComponent($element.find(".activity-item").attr("data-activityname"));
-                var urlreturn = encodeURIComponent(location.href);
+                var urlreturn = encodeURIComponent(location.href.replace(M.cfg.wwwroot, ""));
                 $element.find(".editing_delete")
                     .before(`<a href="${M.cfg.wwwroot}/local/copy/copy.php?module=${modId}&name=${name}&returnurl=${urlreturn}"
                                 class="dropdown-item menu-action cm-edit-action">

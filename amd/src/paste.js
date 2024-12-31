@@ -34,7 +34,7 @@ define(["jquery"], function($) {
                     beforeModule = "";
                 }
 
-                var urlreturn = encodeURIComponent(location.href);
+                var urlreturn = encodeURIComponent(location.href.replace(M.cfg.wwwroot, ""));
                 var url = `${M.cfg.wwwroot}/local/copy/paste.php?courseid=${courseid}&section=${sectionId}` +
                     `&beforemodule=${beforeModule}&returnurl=${urlreturn}`;
                 $coursesection.find(".divider-content")

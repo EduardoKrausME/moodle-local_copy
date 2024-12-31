@@ -35,7 +35,6 @@ $coursedestino = required_param("courseid", PARAM_INT);
 $sectiondestino = required_param("section", PARAM_INT);
 $beforemodule = optional_param("beforemodule", false, PARAM_INT);
 $returnurl = required_param("returnurl", PARAM_RAW);
-$returnurl = str_replace($CFG->wwwroot, "", $returnurl);
 
 $USER->copymodule_id = null;
 
@@ -52,7 +51,7 @@ $PAGE->set_url(new moodle_url("/local/copy/paste.php",
     ]));
 
 if (!$coursemoduleorigem) {
-    redirect($returnurl, get_string("pasteempty", "local_copy"), null, \core\output\notification::NOTIFY_ERROR);
+    redirect(new moodle_url($returnurl), get_string("pasteempty", "local_copy"), null, \core\output\notification::NOTIFY_ERROR);
 }
 
 // Backup the activity.
@@ -110,8 +109,8 @@ if ($newcmid) {
         moveto_module($newcm, $section, null);
     }
 
-    redirect($returnurl . "#module-{$newcmid}", get_string("pastesuccess", "local_copy"), null,
+    redirect(new moodle_url($returnurl) . "#module-{$newcmid}", get_string("pastesuccess", "local_copy"), null,
         \core\output\notification::NOTIFY_SUCCESS);
 } else {
-    redirect($returnurl, get_string("pastesuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
+    redirect(new moodle_url($returnurl), get_string("pastesuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
 }
