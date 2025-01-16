@@ -25,6 +25,7 @@
 $string['copy'] = 'Copy module to clipboard';
 $string['copy:manage'] = 'Copy modules';
 $string['copyedsuccess'] = 'Copyed successfully';
+$string['copyederror'] = 'Error Copyed';
 $string['modulename'] = 'Copy Modules';
 $string['pasteempty'] = 'Currently, there are no modules available in the clipboard.';
 $string['pastehere'] = 'Paste <strong>{$a}</strong> here';

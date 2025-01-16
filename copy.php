@@ -31,10 +31,12 @@ require_login();
 $context = \context_module::instance($copymoduleid);
 require_capability("local/copy:manage", $context);
 
+$returnurl = required_param("returnurl", PARAM_RAW);
+
 if ($USER->editing) {
     $USER->copymodule_id = $copymoduleid;
     $USER->copymodule_name = $copymodulename;
+    redirect(new moodle_url($returnurl), get_string("copyedsuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
+}else{
+    redirect(new moodle_url($returnurl), get_string("copyederror", "local_copy"), null, \core\output\notification::NOTIFY_WARNING);
 }
-
-$returnurl = required_param("returnurl", PARAM_RAW);
-redirect(new moodle_url($returnurl), get_string("copyedsuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
