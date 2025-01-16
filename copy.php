@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core\output\notification;
+
 require("../../config.php");
 
 $copymoduleid = required_param("module", PARAM_INT);
@@ -36,7 +38,7 @@ $returnurl = required_param("returnurl", PARAM_RAW);
 if ($USER->editing) {
     $USER->copymodule_id = $copymoduleid;
     $USER->copymodule_name = $copymodulename;
-    redirect(new moodle_url($returnurl), get_string("copyedsuccess", "local_copy"), null, \core\output\notification::NOTIFY_SUCCESS);
-}else{
-    redirect(new moodle_url($returnurl), get_string("copyederror", "local_copy"), null, \core\output\notification::NOTIFY_WARNING);
+    redirect(new moodle_url($returnurl), get_string("copyedsuccess", "local_copy"), null, notification::NOTIFY_SUCCESS);
+} else {
+    redirect(new moodle_url($returnurl), get_string("copyederror", "local_copy"), null, notification::NOTIFY_WARNING);
 }
