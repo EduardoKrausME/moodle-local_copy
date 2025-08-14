@@ -39,7 +39,7 @@ class core_hook_output {
     public static function before_standard_head_html_generation() {
         global $PAGE, $USER, $COURSE;
 
-        if (isset($USER->editing) && $USER->editing) {
+        if ($PAGE->user_is_editing()) {
             $PAGE->requires->js_call_amd("local_copy/copy", "init",
                 [get_string("copy", "local_copy")]);
 
