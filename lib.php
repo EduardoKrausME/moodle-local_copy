@@ -22,16 +22,13 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 use local_copy\core_hook_output;
 
 if (version_compare($CFG->release, '4.4', '<')) {
     /**
      * Legacy callback for Moodle <4.4
      */
-    function local_copy_before_standard_html_head(): void
-    {
+    function local_copy_before_standard_html_head(): void {
         core_hook_output::before_standard_head_html_generation();
     }
 }
