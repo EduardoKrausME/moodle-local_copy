@@ -17,7 +17,7 @@
  * File that generates the link to paste the module
  *
  * @package   local_copy
- * @copyright 2024 Eduardo Kraus {@link http://eduardokraus.com}
+ * @copyright 2024 Eduardo Kraus {@link https://eduardokraus.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
