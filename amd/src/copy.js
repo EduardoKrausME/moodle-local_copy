@@ -27,8 +27,8 @@ define(["jquery"], function($) {
             $(".section .activity").each(function(id, element) {
                 var $element = $(element);
 
-                var modId = $element.attr("data-id");
-                var name = encodeURIComponent($element.find(".activity-item").attr("data-activityname"));
+                var modId = $element.attr("id").replace(/\D/g, '');
+                var name = encodeURIComponent($element.find("[data-activityname]").attr("data-activityname"));
                 var urlreturn = encodeURIComponent(location.href.replace(M.cfg.wwwroot, ""));
                 $element.find(".editing_delete")
                     .before(`<a href="${M.cfg.wwwroot}/local/copy/copy.php?module=${modId}&name=${name}&returnurl=${urlreturn}"

@@ -24,7 +24,7 @@
 define(["jquery"], function($) {
     return {
         init: function(courseid, pastetext) {
-            $(".section .divider.bulk-hidden").each(function(id, courseSection) {
+            $(".section .divider.bulk-hidden,.section-modchooser").each(function(id, courseSection) {
                 var $coursesection = $(courseSection);
 
                 var $button = $coursesection.find("[data-action=open-chooser]");
