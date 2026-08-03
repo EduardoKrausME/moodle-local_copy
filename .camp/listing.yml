@@ -1,0 +1,23 @@
+# (RFC §4.1). Authors update their listing with an ordinary commit; camp
+# ingests and hash-pins it at each tagged release. Listing for local_copy.
+
+name: "Copy and Paste Modules"
+summary: "Copy and paste activities and resources between courses with just a few clicks."
+description: |
+  Copy and paste activities and resources between courses with just a few clicks.
+
+  This plugin that provides a practical and efficient functionality to copy activities or resources from one course and paste them into another, making it easier to reuse content across different courses.
+
+  Key capabilities:
+  - Copy activities or resources from any Moodle course.
+  - Paste the copied items into any other Moodle course.
+  - Compatible with all types of modules, including quizzes, forums, SCORM, and more.
+
+  Supported Moodle versions in the supplied plugin list: 3.9 - 5.0.
+
+labels:
+  - fully-free
+category: "administration"
+links:
+  docs: https://github.com/EduardoKrausME/moodle-local_copy#readme
+  issues: https://github.com/EduardoKrausME/moodle-local_copy/issues
