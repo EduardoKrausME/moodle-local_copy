@@ -24,12 +24,16 @@
 
 namespace local_copy;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Loads the clipboard UI only for users who can actually use it.
  */
 class core_hook_output {
+    /**
+     * before_standard_head_html_generation
+     *
+     * @return void
+     * @throws \coding_exception
+     */
     public static function before_standard_head_html_generation(): void {
         global $PAGE, $COURSE;
 

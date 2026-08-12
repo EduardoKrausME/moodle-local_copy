@@ -24,8 +24,6 @@
 
 namespace local_copy;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Session clipboard for copied course modules.
  */
