@@ -25,12 +25,12 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = [
-    "local/copy:manage" => [
-        "captype" => "write",
-        "contextlevel" => CONTEXT_SYSTEM,
-        "archetypes" => [
-            "coursecreator" => CAP_ALLOW,
-            "manager" => CAP_ALLOW,
+    'local/copy:manage' => [
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'coursecreator' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
         ],
     ],
 ];

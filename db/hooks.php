@@ -23,9 +23,10 @@
  */
 
 defined('MOODLE_INTERNAL') || die;
+
 $callbacks = [
     [
         'hook' => \core\hook\output\before_standard_head_html_generation::class,
-        'callback' => "\local_copy\core_hook_output::before_standard_head_html_generation",
+        'callback' => '\\local_copy\\core_hook_output::before_standard_head_html_generation',
     ],
 ];

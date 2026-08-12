@@ -25,39 +25,52 @@
 namespace local_copy;
 
 defined('MOODLE_INTERNAL') || die;
-require_once(__DIR__ . "/../lib.php");
 
 /**
- * Class core_hook_output
- *
- * @package local_copy
+ * Loads the clipboard UI only for users who can actually use it.
  */
 class core_hook_output {
-    /**
-     * Function before_http_headers
-     */
-    public static function before_standard_head_html_generation() {
-        global $PAGE, $USER, $COURSE;
+    public static function before_standard_head_html_generation(): void {
+        global $PAGE, $COURSE;
 
-        if ($PAGE->user_is_editing()) {
-            $PAGE->requires->js_call_amd("local_copy/copy", "init",
-                [
-                    get_string("copy", "local_copy"),
-                    get_string("copyselected", "local_copy"),
-                ]);
-
-            $hasmultiple = isset($USER->copymodule_ids) && is_array($USER->copymodule_ids) && count($USER->copymodule_ids) > 1;
-            $hassingle = isset($USER->copymodule_id) && $USER->copymodule_id;
-            if ($hasmultiple || $hassingle) {
-                if ($hasmultiple) {
-                    $pastetext = get_string("pasteherecount", "local_copy", count($USER->copymodule_ids));
-                } else {
-                    $pastetext = get_string("pastehere", "local_copy", $USER->copymodule_name);
-                }
-
-                $PAGE->requires->js_call_amd("local_copy/paste", "init",
-                    [$COURSE->id, $pastetext]);
-            }
+        if (!$PAGE->user_is_editing() || empty($COURSE->id) || (int)$COURSE->id === SITEID) {
+            return;
         }
+
+        $context = \context_course::instance($COURSE->id, IGNORE_MISSING);
+        if (!$context || !has_capability('local/copy:manage', $context)) {
+            return;
+        }
+
+        $PAGE->requires->strings_for_js([
+            'copy',
+            'copyselected',
+            'copyedsuccess',
+            'copyedsuccessbulk',
+            'clipboardtitleone',
+            'clipboardtitlemany',
+            'clipboardfrom',
+            'paste',
+            'clear',
+            'clipboardcleared',
+            'pastemodaltitle',
+            'pastesection',
+            'pasteposition',
+            'positionstart',
+            'positionend',
+            'positionbefore',
+            'positionafter',
+            'pastebuttonone',
+            'pastebuttonmany',
+            'pasting',
+            'pasteerror',
+            'sectionfallback',
+            'unexpectederror',
+        ], 'local_copy');
+
+        $PAGE->requires->js_call_amd('local_copy/clipboard', 'init', [
+            (int)$COURSE->id,
+            clipboard::get(),
+        ]);
     }
 }
