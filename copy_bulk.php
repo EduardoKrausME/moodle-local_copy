@@ -22,59 +22,26 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use core\output\notification;
-
-require("../../config.php");
+require_once(__DIR__ . '/../../config.php');
 
 require_login();
 require_sesskey();
 
-$modulesjson = required_param("modules", PARAM_RAW);
-$namesjson = optional_param("names", "[]", PARAM_RAW);
-$returnurl = required_param("returnurl", PARAM_RAW);
-
+$modulesjson = required_param('modules', PARAM_RAW);
+$returnurl = required_param('returnurl', PARAM_LOCALURL);
 $moduleids = json_decode($modulesjson, true);
-$modulenames = json_decode($namesjson, true);
 
-if (!is_array($moduleids) || !$moduleids) {
-    redirect(new moodle_url($returnurl), get_string("copyederror", "local_copy"), null, notification::NOTIFY_WARNING);
+try {
+    if (!is_array($moduleids)) {
+        throw new moodle_exception('copyederror', 'local_copy');
+    }
+    $clipboard = \local_copy\copy_service::copy($moduleids);
+    redirect(
+        new moodle_url($returnurl),
+        get_string('copyedsuccessbulk', 'local_copy', count($clipboard['items'])),
+        null,
+        \core\output\notification::NOTIFY_SUCCESS
+    );
+} catch (Throwable $exception) {
+    redirect(new moodle_url($returnurl), get_string('copyederror', 'local_copy'), null, \core\output\notification::NOTIFY_ERROR);
 }
-
-$copiedids = [];
-$copiednames = [];
-foreach ($moduleids as $index => $moduleid) {
-    $moduleid = clean_param($moduleid, PARAM_INT);
-    if (!$moduleid) {
-        continue;
-    }
-
-    try {
-        $context = \context_module::instance($moduleid);
-    } catch (Exception $exception) {
-        continue;
-    }
-
-    if (!has_capability("local/copy:manage", $context)) {
-        continue;
-    }
-
-    $name = "";
-    if (is_array($modulenames) && array_key_exists($index, $modulenames)) {
-        $name = clean_param((string)$modulenames[$index], PARAM_TEXT);
-    }
-
-    $copiedids[] = (int)$moduleid;
-    $copiednames[] = $name;
-}
-
-if (!$copiedids) {
-    redirect(new moodle_url($returnurl), get_string("copyederror", "local_copy"), null, notification::NOTIFY_WARNING);
-}
-
-$USER->copymodule_id = $copiedids[0];
-$USER->copymodule_name = $copiednames[0] ?? "";
-$USER->copymodule_ids = $copiedids;
-$USER->copymodule_names = $copiednames;
-
-$message = get_string("copyedsuccessbulk", "local_copy", count($copiedids));
-redirect(new moodle_url($returnurl), $message, null, notification::NOTIFY_SUCCESS);

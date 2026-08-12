@@ -1,0 +1,19 @@
+<div class="local-copy-clipboard shadow-sm" data-region="local-copy-clipboard">
+    <div class="local-copy-clipboard__icon" aria-hidden="true">
+        <i class="fa fa-clipboard"></i>
+    </div>
+    <div class="local-copy-clipboard__content">
+        <strong>{{summary}}</strong>
+        {{#sourcecourse}}
+            <span>{{sourcecourse}}</span>
+        {{/sourcecourse}}
+    </div>
+    <div class="local-copy-clipboard__actions">
+        <button type="button" class="btn btn-primary btn-sm" data-action="local-copy-paste">
+            {{#str}}paste, local_copy{{/str}}
+        </button>
+        <button type="button" class="btn btn-link btn-sm" data-action="local-copy-clear">
+            {{#str}}clear, local_copy{{/str}}
+        </button>
+    </div>
+</div>

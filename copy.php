@@ -22,23 +22,17 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use core\output\notification;
-
-require("../../config.php");
-
-$copymoduleid = required_param("module", PARAM_INT);
-$copymodulename = required_param("name", PARAM_TEXT);
+require_once(__DIR__ . '/../../config.php');
 
 require_login();
-$context = \context_module::instance($copymoduleid);
-require_capability("local/copy:manage", $context);
+require_sesskey();
 
-$returnurl = required_param("returnurl", PARAM_RAW);
+$moduleid = required_param('module', PARAM_INT);
+$returnurl = required_param('returnurl', PARAM_LOCALURL);
 
-if ($USER->editing) {
-    $USER->copymodule_id = $copymoduleid;
-    $USER->copymodule_name = $copymodulename;
-    redirect(new moodle_url($returnurl), get_string("copyedsuccess", "local_copy"), null, notification::NOTIFY_SUCCESS);
-} else {
-    redirect(new moodle_url($returnurl), get_string("copyederror", "local_copy"), null, notification::NOTIFY_WARNING);
+try {
+    \local_copy\copy_service::copy([$moduleid]);
+    redirect(new moodle_url($returnurl), get_string('copyedsuccess', 'local_copy'), null, \core\output\notification::NOTIFY_SUCCESS);
+} catch (Throwable $exception) {
+    redirect(new moodle_url($returnurl), get_string('copyederror', 'local_copy'), null, \core\output\notification::NOTIFY_ERROR);
 }
