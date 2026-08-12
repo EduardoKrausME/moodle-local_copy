@@ -1,8 +1,76 @@
-.activity div.divider button.local_copy-paste-content {
-    padding: 0 7px !important;
+.local-copy-clipboard {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1040;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: min(560px, 100vw - 2rem);
+  padding: 0.75rem;
+  background: var(--bs-body-bg, #fff);
+  color: var(--bs-body-color, #212529);
+  border: 1px solid var(--bs-border-color, #dee2e6);
+  border-radius: 0.75rem;
 }
-button.local_copy-paste-content {
-    font-weight: 400 !important;
-    width: auto;
-    margin-left: 10px;
+
+.local-copy-clipboard.local-copy-clipboard--with-sticky-footer {
+  bottom: 5.25rem;
 }
+
+.local-copy-clipboard__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 2.5rem;
+  border-radius: 0.5rem;
+  background: var(--bs-tertiary-bg, #f2f4f7);
+}
+
+.local-copy-clipboard__content {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.local-copy-clipboard__content strong,
+.local-copy-clipboard__content span {
+  display: block;
+}
+
+.local-copy-clipboard__content span {
+  margin-top: 0.1rem;
+  font-size: 0.82rem;
+  opacity: 0.72;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.local-copy-clipboard__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 0 0 auto;
+}
+
+.local-copy-action .fa,
+.local-copy-bulk-btn .fa {
+  pointer-events: none;
+}
+
+@media (max-width: 575.98px) {
+  .local-copy-clipboard {
+    left: 1rem;
+    right: 1rem;
+    max-width: none;
+    flex-wrap: wrap;
+  }
+  .local-copy-clipboard__actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */
