@@ -24,18 +24,59 @@
 define(["jquery"], function($) {
     return {
         init: function(courseid, pastetext) {
+            var resolveSectionData = function($origin, $button) {
+                var sectionnum = $button.attr("data-sectionnum") || $button.attr("data-sectionreturnid") || "";
+                var sectionid = $button.attr("data-sectionid") || "";
+                if (sectionnum || sectionid) {
+                    return {
+                        sectionnum: sectionnum,
+                        sectionid: sectionid
+                    };
+                }
+
+                var $section = $origin.closest("[data-sectionid], .section[id^='section-']");
+                sectionid = $section.attr("data-sectionid") || $section.attr("data-id") || "";
+                if (sectionid) {
+                    return {
+                        sectionnum: "",
+                        sectionid: sectionid
+                    };
+                }
+
+                var sectionDomId = $section.attr("id") || "";
+                var sectionMatch = sectionDomId.match(/section-(\d+)/);
+                if (sectionMatch && sectionMatch[1]) {
+                    return {
+                        sectionnum: sectionMatch[1],
+                        sectionid: ""
+                    };
+                }
+
+                return {
+                    sectionnum: "",
+                    sectionid: ""
+                };
+            };
+
             $(".section .divider.bulk-hidden,.section-modchooser").each(function(id, courseSection) {
                 var $coursesection = $(courseSection);
 
                 var $button = $coursesection.find("[data-action=open-chooser]");
-                var sectionId = $button.attr("data-sectionnum") || $button.attr("data-sectionid") || $button.attr("data-sectionreturnid");
+                var sectionData = resolveSectionData($coursesection, $button);
+                var sectionnum = sectionData.sectionnum;
+                var sectionid = sectionData.sectionid;
+                if (!sectionnum && !sectionid) {
+                    return;
+                }
                 var beforeModule = $button.attr("data-beforemod");
                 if (!beforeModule) {
                     beforeModule = "";
                 }
 
                 var urlreturn = encodeURIComponent(location.href.replace(M.cfg.wwwroot, ""));
-                var url = `${M.cfg.wwwroot}/local/copy/paste.php?courseid=${courseid}&section=${sectionId}` +
+                var url = `${M.cfg.wwwroot}/local/copy/paste.php?courseid=${courseid}` +
+                    `&section=${encodeURIComponent(sectionnum || sectionid)}` +
+                    `&sectionid=${encodeURIComponent(sectionid)}` +
                     `&beforemodule=${beforeModule}&returnurl=${urlreturn}`;
 
                 $coursesection
@@ -56,10 +97,17 @@ define(["jquery"], function($) {
             $(".section-modchooser.activity-add.bulk-hidden").each(function(id, courseSection) {
                 var $coursesection = $(courseSection);
 
-                var sectionId = $coursesection.attr("data-sectionnum") || $coursesection.attr("data-sectionid") || $coursesection.attr("data-sectionreturnid");
+                var sectionData = resolveSectionData($coursesection, $coursesection.find("[data-action=open-chooser]"));
+                var sectionnum = sectionData.sectionnum;
+                var sectionid = sectionData.sectionid;
+                if (!sectionnum && !sectionid) {
+                    return;
+                }
 
                 var urlreturn = encodeURIComponent(location.href.replace(M.cfg.wwwroot, ""));
-                var url = `${M.cfg.wwwroot}/local/copy/paste.php?courseid=${courseid}&section=${sectionId}` +
+                var url = `${M.cfg.wwwroot}/local/copy/paste.php?courseid=${courseid}` +
+                    `&section=${encodeURIComponent(sectionnum || sectionid)}` +
+                    `&sectionid=${encodeURIComponent(sectionid)}` +
                     `&returnurl=${urlreturn}`;
 
                 $coursesection.before(`

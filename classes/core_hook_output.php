@@ -41,11 +41,22 @@ class core_hook_output {
 
         if ($PAGE->user_is_editing()) {
             $PAGE->requires->js_call_amd("local_copy/copy", "init",
-                [get_string("copy", "local_copy")]);
+                [
+                    get_string("copy", "local_copy"),
+                    get_string("copyselected", "local_copy"),
+                ]);
 
-            if (isset($USER->copymodule_id) && $USER->copymodule_id) {
+            $hasmultiple = isset($USER->copymodule_ids) && is_array($USER->copymodule_ids) && count($USER->copymodule_ids) > 1;
+            $hassingle = isset($USER->copymodule_id) && $USER->copymodule_id;
+            if ($hasmultiple || $hassingle) {
+                if ($hasmultiple) {
+                    $pastetext = get_string("pasteherecount", "local_copy", count($USER->copymodule_ids));
+                } else {
+                    $pastetext = get_string("pastehere", "local_copy", $USER->copymodule_name);
+                }
+
                 $PAGE->requires->js_call_amd("local_copy/paste", "init",
-                    [$COURSE->id, get_string("pastehere", "local_copy", $USER->copymodule_name)]);
+                    [$COURSE->id, $pastetext]);
             }
         }
     }
