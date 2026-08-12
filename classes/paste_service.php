@@ -24,6 +24,9 @@
 
 namespace local_copy;
 
+use moodle_exception;
+use Throwable;
+
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot . '/course/lib.php');
@@ -50,7 +53,7 @@ class paste_service {
         $clipboard = clipboard::get();
         $items = $clipboard['items'] ?? [];
         if (!$items) {
-            throw new \moodle_exception('pasteempty', 'local_copy');
+            throw new moodle_exception('pasteempty', 'local_copy');
         }
 
         $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
@@ -123,28 +126,28 @@ class paste_service {
                     if ($groupsetting && empty($groupsetting->get_value())) {
                         $groupsetting->set_value(true);
                     }
-                } catch (\Throwable $ignored) {
+                } catch (Throwable $ignored) { // phpcs:disable
                     // Some activity backup plans do not expose a groups setting.
                 }
 
                 if (!$restorecontroller->execute_precheck()) {
-                    throw new \moodle_exception('pasteprecheckfailed', 'local_copy');
+                    throw new moodle_exception('pasteprecheckfailed', 'local_copy');
                 }
 
                 $restorecontroller->execute_plan();
                 $newcmid = self::find_restored_module_id($restorecontroller, $sourcecontext->id);
                 if (!$newcmid) {
-                    throw new \moodle_exception('pastenewmodulemissing', 'local_copy');
+                    throw new moodle_exception('pastenewmodulemissing', 'local_copy');
                 }
 
                 $newcm = get_coursemodule_from_id(null, $newcmid, $courseid, false, IGNORE_MISSING);
                 if (!$newcm) {
-                    throw new \moodle_exception('pastenewmodulemissing', 'local_copy');
+                    throw new moodle_exception('pastenewmodulemissing', 'local_copy');
                 }
 
                 moveto_module($newcm, $section, $validbeforemodule ?: null);
                 $newcmids[] = (int)$newcmid;
-            } catch (\Throwable $exception) {
+            } catch (Throwable $exception) {
                 debugging('local_copy paste failed for cmid ' . $sourcecmid . ': ' . $exception->getMessage(), DEBUG_DEVELOPER);
                 $message = get_string('pasteitemerror', 'local_copy');
                 if (has_capability('moodle/site:config', \context_system::instance())) {
@@ -158,13 +161,13 @@ class paste_service {
                 if ($restorecontroller) {
                     try {
                         $restorecontroller->destroy();
-                    } catch (\Throwable $ignored) {
+                    } catch (Throwable $ignored) { // phpcs:disable
                     }
                 }
                 if ($backupcontroller) {
                     try {
                         $backupcontroller->destroy();
-                    } catch (\Throwable $ignored) {
+                    } catch (Throwable $ignored) { // phpcs:disable
                     }
                 }
                 if ($backupbasepath && is_dir($backupbasepath)) {
@@ -213,7 +216,7 @@ class paste_service {
             $section = $DB->get_record('course_sections', ['section' => $sectionnum, 'course' => $courseid]);
         }
         if (!$section) {
-            throw new \moodle_exception('pasteinvalidsection', 'local_copy');
+            throw new moodle_exception('pasteinvalidsection', 'local_copy');
         }
 
         return $section;
