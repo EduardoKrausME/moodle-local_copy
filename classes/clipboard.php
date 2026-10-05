@@ -100,7 +100,7 @@ class clipboard {
             return [];
         }
 
-        $course = $DB->get_record('course', ['id' => $courseid], '*', IGNORE_MISSING);
+        $course = $DB->get_record('course', ['id' => $courseid]);
         if (!$course) {
             self::clear_legacy();
             return [];
