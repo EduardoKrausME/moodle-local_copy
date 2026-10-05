@@ -31,10 +31,13 @@ class core_hook_output {
     /**
      * before_standard_head_html_generation
      *
+     * @param \\core\\hook\\output\\before_standard_head_html_generation $hook Hook instance.
      * @return void
      * @throws \coding_exception
      */
-    public static function before_standard_head_html_generation(): void {
+    public static function before_standard_head_html_generation(
+        \\core\\hook\\output\\before_standard_head_html_generation $hook
+    ): void {
         global $PAGE, $COURSE;
 
         if (!$PAGE->user_is_editing() || empty($COURSE->id) || (int)$COURSE->id === SITEID) {
