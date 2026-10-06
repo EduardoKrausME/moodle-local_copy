@@ -61,6 +61,11 @@ class paste_service {
         $coursecontext = \context_course::instance($courseid);
         require_capability('local/copy:manage', $coursecontext);
 
+        $sourcecourseid = (int)($clipboard['courseid'] ?? 0);
+        $crosscourse = $sourcecourseid > 0 && $sourcecourseid !== $courseid;
+        $restoremode = $crosscourse ? \backup::MODE_SAMESITE : \backup::MODE_IMPORT;
+        $restoretarget = $crosscourse ? \backup::TARGET_EXISTING_ADDING : \backup::TARGET_CURRENT_ADDING;
+
         $section = self::resolve_section($courseid, $sectionid, $sectionnum);
         $validbeforemodule = self::validate_before_module($courseid, (int)$section->id, $beforemodule);
 
@@ -115,9 +120,9 @@ class paste_service {
                     $backupid,
                     $courseid,
                     \backup::INTERACTIVE_NO,
-                    \backup::MODE_IMPORT,
+                    $restoremode,
                     $USER->id,
-                    \backup::TARGET_CURRENT_ADDING
+                    $restoretarget
                 );
 
                 $plan = $restorecontroller->get_plan();
