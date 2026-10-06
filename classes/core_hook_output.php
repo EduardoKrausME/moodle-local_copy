@@ -36,7 +36,7 @@ class core_hook_output {
      * @throws \coding_exception
      */
     public static function before_standard_head_html_generation(
-        \\core\\hook\\output\\before_standard_head_html_generation $hook
+        \core\hook\output\before_standard_head_html_generation $hook
     ): void {
         global $PAGE, $COURSE;
 
