@@ -28,5 +28,5 @@ use local_copy\core_hook_output;
  * Legacy callback for Moodle < 4.4.
  */
 function local_copy_before_standard_html_head(): void {
-    core_hook_output::before_standard_head_html_generation();
+    core_hook_output::before_standard_head_html_generation(null);
 }

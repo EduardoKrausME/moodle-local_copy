@@ -24,6 +24,8 @@
 
 namespace local_copy;
 
+use context_course;
+
 /**
  * Loads the clipboard UI only for users who can actually use it.
  */
@@ -35,16 +37,14 @@ class core_hook_output {
      * @return void
      * @throws \coding_exception
      */
-    public static function before_standard_head_html_generation(
-        \core\hook\output\before_standard_head_html_generation $hook
-    ): void {
+    public static function before_standard_head_html_generation($hook): void {
         global $PAGE, $COURSE;
 
         if (!$PAGE->user_is_editing() || empty($COURSE->id) || (int)$COURSE->id === SITEID) {
             return;
         }
 
-        $context = \context_course::instance($COURSE->id, IGNORE_MISSING);
+        $context = context_course::instance($COURSE->id, IGNORE_MISSING);
         if (!$context || !has_capability('local/copy:manage', $context)) {
             return;
         }
@@ -76,7 +76,7 @@ class core_hook_output {
         ], 'local_copy');
 
         $PAGE->requires->js_call_amd('local_copy/clipboard', 'init', [
-            (int)$COURSE->id,
+            $COURSE->id,
             clipboard::get(),
         ]);
     }
