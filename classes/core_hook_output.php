@@ -25,6 +25,7 @@
 namespace local_copy;
 
 use context_course;
+use core\hook\output\before_standard_head_html_generation;
 
 /**
  * Loads the clipboard UI only for users who can actually use it.
