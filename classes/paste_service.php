@@ -133,7 +133,7 @@ class paste_service {
                     }
                 } catch (Throwable $ignored) {
                     // Keep restoring even if the optional groups setting cannot be configured.
-                    error_log('local_copy: unable to configure the optional restore groups setting.');
+                    debugging('local_copy: unable to configure the optional restore groups setting.', DEBUG_DEVELOPER);
                 }
 
                 if (!$restorecontroller->execute_precheck()) {
@@ -168,14 +168,14 @@ class paste_service {
                     try {
                         $restorecontroller->destroy();
                     } catch (Throwable $ignored) {
-                        error_log('local_copy: unable to destroy the restore controller.');
+                        debugging('local_copy: unable to destroy the restore controller.', DEBUG_DEVELOPER);
                     }
                 }
                 if ($backupcontroller) {
                     try {
                         $backupcontroller->destroy();
                     } catch (Throwable $ignored) {
-                        error_log('local_copy: unable to destroy the backup controller.');
+                        debugging('local_copy: unable to destroy the backup controller.', DEBUG_DEVELOPER);
                     }
                 }
                 if ($backupbasepath && is_dir($backupbasepath)) {
