@@ -131,7 +131,7 @@ class paste_service {
                     if ($groupsetting && empty($groupsetting->get_value())) {
                         $groupsetting->set_value(true);
                     }
-                } catch (Throwable $ignored) { // phpcs:disable
+                } catch (Throwable $ignored) {
                     // Some activity backup plans do not expose a groups setting.
                 }
 
