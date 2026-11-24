@@ -1,8 +1,22 @@
 # Changelog
 
-This changelog documents only the two most recent published releases of `local_copy`, as verified on October 24, 2026. Each entry is based on the published Git tag compared with its immediately preceding release tag. The existing `CHANGES-1.2.0.md` is retained separately.
+Published release entries are based on verified GitHub tags and publication dates. Pending changes are identified separately. The existing CHANGES-1.2.0.md is retained separately.
 
-Changes committed after `1.2.10`, including the October 20, 2026 `Mustache` and `Build` commits, are not included in the released-version entries below.
+## Unreleased (planned 1.2.12)
+
+- Check whether the optional groups setting exists before accessing it during activity restoration.
+- Preserve the existing recovery and cleanup flow when optional settings or controller cleanup fail, with developer-level diagnostics through Moodle's debugging API.
+- Removed blanket coding-standard suppressions from these exception handlers.
+- Build: 2026112401.
+
+**Changes since last published release:** [1.2.11...master](https://github.com/EduardoKrausME/moodle-local_copy/compare/1.2.11...master)
+
+## [1.2.11] - 2026-11-24
+
+- Removed empty Mustache example contexts from the clipboard and paste dialog templates and refreshed the compiled AMD modules.
+- Added a security reporting policy and serialized the release workflow.
+
+**Full comparison:** [1.2.10...1.2.11](https://github.com/EduardoKrausME/moodle-local_copy/compare/1.2.10...1.2.11)
 
 ## [1.2.10] - 2026-10-15
 
