@@ -2,14 +2,14 @@
 
 Published release entries are based on verified GitHub tags and publication dates. Pending changes are identified separately. The existing CHANGES-1.2.0.md is retained separately.
 
-## Unreleased (planned 1.2.12)
+## [1.2.12] - 2026-11-24
 
 - Check whether the optional groups setting exists before accessing it during activity restoration.
 - Preserve the existing recovery and cleanup flow when optional settings or controller cleanup fail, with developer-level diagnostics through Moodle's debugging API.
 - Removed blanket coding-standard suppressions from these exception handlers.
 - Build: 2026112401.
 
-**Changes since last published release:** [1.2.11...master](https://github.com/EduardoKrausME/moodle-local_copy/compare/1.2.11...master)
+**Comparison:** [1.2.11...1.2.12](https://github.com/EduardoKrausME/moodle-local_copy/compare/1.2.11...1.2.12)
 
 ## [1.2.11] - 2026-11-24
 
