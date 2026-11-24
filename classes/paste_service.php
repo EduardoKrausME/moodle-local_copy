@@ -127,12 +127,13 @@ class paste_service {
 
                 $plan = $restorecontroller->get_plan();
                 try {
-                    $groupsetting = $plan->get_setting('groups');
+                    $groupsetting = $plan->setting_exists('groups') ? $plan->get_setting('groups') : null;
                     if ($groupsetting && empty($groupsetting->get_value())) {
                         $groupsetting->set_value(true);
                     }
                 } catch (Throwable $ignored) {
-                    // Some activity backup plans do not expose a groups setting.
+                    // Keep restoring even if the optional groups setting cannot be configured.
+                    error_log('local_copy: unable to configure the optional restore groups setting.');
                 }
 
                 if (!$restorecontroller->execute_precheck()) {
@@ -166,13 +167,15 @@ class paste_service {
                 if ($restorecontroller) {
                     try {
                         $restorecontroller->destroy();
-                    } catch (Throwable $ignored) { // phpcs:disable
+                    } catch (Throwable $ignored) {
+                        error_log('local_copy: unable to destroy the restore controller.');
                     }
                 }
                 if ($backupcontroller) {
                     try {
                         $backupcontroller->destroy();
-                    } catch (Throwable $ignored) { // phpcs:disable
+                    } catch (Throwable $ignored) {
+                        error_log('local_copy: unable to destroy the backup controller.');
                     }
                 }
                 if ($backupbasepath && is_dir($backupbasepath)) {
